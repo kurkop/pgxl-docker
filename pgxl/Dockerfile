@@ -21,12 +21,14 @@ RUN apt-get install -y python-dev
 RUN apt-get install -y pgxnclient
 
 ### LOCALE
+# Default
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+RUN locale-gen en_US.UTF-8
 
-RUN apt-get install -y locales && localedef -i fr_FR -c -f UTF-8 -A /usr/share/locale/locale.alias fr_FR.UTF-8
-RUN locale-gen fr_FR.UTF-8
-ENV LANG fr_FR.UTF-8
-ENV LANGUAGE fr_FR:fr
-ENV LC_ALL fr_FR.UTF-8
+ENV LANGUAGE en_US:en
+ENV LANG en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
 
 ### PGXL
 
@@ -71,6 +73,7 @@ RUN sudo /etc/init.d/ssh start && sudo /etc/init.d/ssh stop
 ADD . /app
 RUN chown -R pom:pom /app /pom
 USER pom
+ENV USER pom
 WORKDIR /pom
 ENV HOME /pom
 
