@@ -31,7 +31,8 @@ ENV LC_ALL fr_FR.UTF-8
 ### PGXL
 
 WORKDIR /root
-RUN git clone https://github.com/postmind-net/postgres-xl.git pgxl --depth 1
+RUN git clone --branch XL9_5_STABLE git://git.postgresql.org/git/postgres-xl.git pgxl --depth 1
+
 WORKDIR /root/pgxl
 RUN ./configure --with-python --prefix /opt/pgxl
 # ./configure --enable-cassert --enable-debug CFLAGS="-ggdb -Og -fno-omit-frame-pointer" --with-python --prefix /opt/pgxl
@@ -45,10 +46,6 @@ RUN make install
 
 ENV PATH /opt/pgxl/bin:$PATH
 ENV PGDATA /pom/pgxc
-
-### PG EXTENSIONS
-
-RUN pgxnclient install json_enhancements
 
 RUN sudo apt-get install -y haproxy
 
